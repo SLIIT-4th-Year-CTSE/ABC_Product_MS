@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  #MongoDB service
+  product_mongo_db:
+    container_name: product_database
+    image: mongo:latest
+    restart: always
+    ports:
+      - 2717:27017
+    volumes:
+      - mongo_db:/data/db
+
+  #Product API service
+  product_api:
+    container_name: product_api
+    build: .
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/usr/src/app
+    environment:
+      PORT: 5000
+      MONGO_URI: mongodb://product_mongo_db:27017
+      DB_NAME: product_ms
+      NODE_ENV: development
+    depends_on:
+      - product_mongo_db
+
+volumes:
+  mongo_db: {}
+
+
+
+
