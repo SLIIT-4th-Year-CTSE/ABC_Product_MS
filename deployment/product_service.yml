@@ -7,9 +7,10 @@ metadata:
     app: demo-abc-app
 
 spec:
+  type: LoadBalancer
   ports:
     - port: 5000
       targetPort: 5000
-  selectors:
+  selector:
     name: product-app-pod
     app: demo-abc-app
