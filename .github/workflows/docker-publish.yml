@@ -28,17 +28,17 @@ jobs:
     - name: Push product service docker image
       run: docker push "$DOCKER_USER_NAME/$PRODUCT_REPO_NAME:latest"
 
-#   deploy:
-#     needs: [product-service]
-#     runs-on: ubuntu-latest
-#     steps:
-#     - uses: actions/checkout@master
-#     - name: kubectl - Google Cloud GKE cluster.
-#       uses: ameydev/gke-kubectl-action@master
-#       env:
-#         PROJECT_ID: ${{ secrets.PROJECT_ID }}
-#         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-#         CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
-#         ZONE_NAME: us-central1-c
-#       with:
-#         args: apply -f deployment/
+  deploy:
+    needs: [product-service]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: kubectl - Google Cloud GKE cluster.
+      uses: ameydev/gke-kubectl-action@master
+      env:
+        PROJECT_ID: ${{ secrets.PROJECT_ID }}
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
+        ZONE_NAME: asia-southeast1-a
+      with:
+        args: apply -f deployment/
